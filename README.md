@@ -23,6 +23,8 @@ Filtre alanını kullanarak veri detaylandırmak
 hedeflenmiştir.
 
  2. Dashboard’ın Ana Bileşenleri
+
+    
  A. KPI Kartları
 
 Raporun üst bölümünde 4 ana KPI bulunmaktadır:
