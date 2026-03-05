@@ -1,111 +1,103 @@
-🇹🇷 Personel Dashboard – Power BI Raporlama Projesi (README)
+![Dashboard ](dashboard_screenshot.png)
+
+## 🇹🇷 Personel Dashboard – Power BI Raporlama Projesi (README)
 
 Bu proje, bir şirketin insan kaynakları verilerini tek sayfada toplayan, interaktif ve yönetim odaklı bir Power BI Dashboard çalışmasıdır. Dashboard; çalışan sayısı, cinsiyet dağılımı, maaş toplamı, personel durum oranları ve çeşitli filtrelerle detaylı analiz yapılabilmesini sağlar.
 
-Tasarım; özel PowerPoint arka planı, Google’dan indirilen özel filtre ikonu, özelleştirilmiş tooltipler ve modern bir UI/UX yaklaşımı ile profesyonelleştirilmiştir.
+Tasarım; özel PowerPoint arka planı, Google’dan indirilen özel filtre ikonu, tooltipler ve modern bir UI/UX yaklaşımı ile profesyonelleştirilmiştir.
 
- 1. Projenin Amacı
+##  Projenin Amacı
 
 Bu dashboard ile:
 
-Toplam maaş ve toplam personel sayılarını izlemek
+-Toplam maaş ve toplam personel sayılarını izlemek
 
-Cinsiyet dağılımını analiz etmek
+-Cinsiyet dağılımını analiz etmek
 
-İşten ayrılan personellerin yüzdelik oranını görmek
+-İşten ayrılan personellerin yüzdelik oranını görmek
 
-Departman, durum ve şehir bazlı dağılımları incelemek
+-Departman, durum ve şehir bazlı dağılımları incelemek
 
-Sol taraftaki filtre paneli ile veriyi detaylandırmak
+-Sol taraftaki filtre paneli ile veriyi detaylandırmak
 
-Üst yönetime hızlı, tek bakışta içgörü sunmak
+-Üst yönetime hızlı, tek bakışta içgörü sunmak
 
-hedeflenmiştir.
+## A. KPI Kartları
 
- 2. Dashboard’ın Ana Bileşenleri
- A. KPI Kartları
+## Dashboard’un üst bölümünde KPI’lar:
 
-Dashboard’un üst bölümünde 4 ana KPI bulunmaktadır:
+## Toplam Personel Sayısı (PersonelSayısı)
 
- Toplam Maaş (Total Salary Sum)
+PersonelSayısı = COUNTA(Tablo33[İsim Soyisim])
 
-Measure:
+## Kadın Personel Sayısı (KadınSayısı)
 
-SUM('Personeller'[Maas])
+KadınSayısı = CALCULATE([PersonelSayısı], Tablo33[Cinsiyet]="Kadın")
 
+## Turnover Oranı (TurnOverRate)
 
-Amaç: Şirketin toplam maaş maliyetini gösterir.
-Tüm slicer’lara duyarlıdır.
+TurnOverRate = DIVIDE(CALCULATE([PersonelSayısı], Tablo33[Durum]="Ayrıldı"), [PersonelSayısı])
 
- Toplam Personel Sayısı (Total Employee Count)
-
-Measure:
-
-COUNTA('Personeller'[PersonelID])
+Tüm KPI’lar dashboard’daki slicer’lara duyarlıdır.
 
 
-Dinamik çalışır; tüm filtrelere duyarlıdır.
+## B. Bar Chart – Departman Bazlı Personel Sayısı
 
-Kadın Personel Sayısı (Female Employee Count)
+X Ekseni: Departman
 
-Measure:
+Y Ekseni: Personel Sayısı (Values: PersonelSayısı)
 
-Female Count =
-CALCULATE(
-    COUNTA('Personeller'[Cinsiyet]),
-    'Personeller'[Cinsiyet] = "Kadın"
-)
-
- İşten Ayrılanların Yüzdelik Oranı (Resignation Percentage)
-
-Measure:
-
-Resigned Rate =
-DIVIDE(
-    CALCULATE(COUNTA('Personeller'[Durum]), 'Personeller'[Durum] = "Ayrıldı"),
-    COUNTA('Personeller'[Durum])
-)
-
-
-Bu measure’da CALCULATE + COUNTA + DIVIDE birlikte kullanılmıştır.
-
- B. Bar Chart – Departman Bazlı Personel Sayısı
-
-X ekseni: Departman
-
-Y ekseni: Personel Sayısı
 Amaç: Departman yoğunluğunu analiz etmek.
 
- C. Donut Chart – Durum Bazlı Dağılım
+## C. Donut Chart – Durum Bazlı Dağılım
 
-Dilimler:
+Dilimler: Çalışıyor / Ayrıldı
 
-Çalışıyor
+Values: PersonelSayısı
 
-Ayrıldı
+Legend: Durum
 
-Amaç: Durum oranlarını görsel ve anlaşılır şekilde sunmak.
+Amaç: İşten ayrılma ve çalışan oranlarını görsel olarak sunmak.
 
- D. Sol Taraf Özel Filtre Paneli (Custom Filter Panel)
+## D. Sol Taraf Özel Filtre Paneli (Custom Filter Panel)
 
-Kullanılan slicer’lar:
+Slicer’lar:
 
-Slicer	Açıklama
-Cinsiyet	Kadın – Erkek
-Çalışma Durumu	Çalışıyor / Ayrıldı
-Şehir	Şehir bazlı filtreleme
-Departman	Departman kırılımı
-Yıl	Yıllara göre analiz
+Cinsiyet → Kadın / Erkek
 
-Panelde kullanılan özellikler:
+Durum → Çalışıyor / Ayrıldı
 
-PowerPoint ile tasarlanmış özel arka plan
+Şehir → Şehir bazlı filtreleme
 
-Google’dan indirilen özel filtre ikonu
+Filtre ikonları Google’dan indirilmiş ve Power BI’a eklenmiştir.
 
-Modern ve sade UI/UX
+Filtreleri temizlemek için ikon kullanıldığında tüm filtreler resetlenir.
 
- 3. Tasarım Özellikleri (UI / UX)
+
+## E. Tooltip
+
+Özel tooltip tasarımı ile grafiklerde fare üzerine gelindiğinde detaylı bilgi gösterilir.
+
+## 3. Veri Modeli
+
+Tek tablo: Tablo33
+
+Kolonlar:
+
+Kolon	Açıklama
+İsim Soyisim	Çalışan adı
+Cinsiyet	Kadın / Erkek
+Departman	Çalıştığı birim
+Durum	Çalışıyor / Ayrıldı
+Maas	Çalışanın maaşı
+Sehir	Şehir bilgisi
+Yıl Analiz yılı
+
+-Ayrıca _calc tablosu: DAX measure’ları burada toplanmıştır.
+
+-Star schema veya ilişkiler yok; dashboard tek tablo üzerinden çalışır.
+
+## 4. Tasarım Özellikleri (UI / UX)
 
 Minimal ve kurumsal renk paleti
 
@@ -119,37 +111,7 @@ Düzenli grafik yerleşimi
 
 Sol filtre alanı ile profesyonel BI standardı
 
- 4. Kullanılan DAX Measure’ları
-Total Salary = SUM('Personeller'[Maas])
-
-Total Employees = COUNTA('Personeller'[PersonelID])
-
-Female Count =
-CALCULATE(COUNTA('Personeller'[Cinsiyet]), 'Personeller'[Cinsiyet] = "Kadın")
-
-Male Count =
-CALCULATE(COUNTA('Personeller'[Cinsiyet]), 'Personeller'[Cinsiyet] = "Erkek")
-
-Resigned Count =
-CALCULATE(COUNTA('Personeller'[Durum]), 'Personeller'[Durum] = "Ayrıldı")
-
-Resigned Rate = DIVIDE([Resigned Count], [Total Employees])
-
- 5. Veri Modeli
-
-Tek tablo üzerinden çalışan sade bir yapı:
-
-Tablo: Personeller
-Kolon	Açıklama
-PersonelID	Benzersiz çalışan ID
-Ad	Çalışan adı
-Cinsiyet	Kadın / Erkek
-Departman	Çalıştığı birim
-Durum	Çalışıyor / Ayrıldı
-Maas	Çalışanın maaşı
-Sehir	Yaşadığı şehir
-Yıl	Analiz yılı
- 6. Kurulum
+## 5. Kurulum
 
 Power BI Desktop’ı açın
 
@@ -160,115 +122,95 @@ personeldashboard.pbix dosyasını açın
 Dashboard otomatik olarak yüklenir
 
 
+## Personnel Dashboard – Power BI Reporting Project (README)
 
-🇬🇧 Personnel Dashboard – Power BI Reporting Project (README)
+This Power BI project visualizes HR data on a single interactive page. It includes employee counts, salary totals, gender distribution, resignation rates, and department/city-based breakdowns.
 
-This Power BI project visualizes HR data such as employee counts, salary totals, gender distribution, resignation rates, and department-based or city-based breakdowns on a single interactive page.
+Design includes custom PowerPoint background, Google-sourced filter icon, enhanced tooltips, and a clean UI/UX approach.
 
-The design includes a custom PowerPoint background, a custom filter icon downloaded from Google, enhanced tooltips, and a clean professional UI/UX structure.
+## Project Objectives
 
- Project Objectives
-
-This dashboard aims to:
-
-Monitor total salary expenses and total employee count
+Monitor total employee count
 
 Analyze gender distribution
 
-Display resignation percentages
+Display turnover percentages
 
 Provide breakdowns by department, employment status, and city
 
-Allow deeper analysis through the left-side custom filter panel
+Allow deeper analysis via the left-side filter panel
 
-Provide a single-page executive analytics view
+Provide a single-page executive dashboard
 
- Dashboard Components
- A. KPI Cards
- Total Salary
-SUM('Personeller'[Maas])
+## Dashboard Components
+## KPI Cards
+
+## Total Employees
+
+PersonelSayısı = COUNTA(Tablo33[İsim Soyisim])
+
+## Female Employees
+
+KadınSayısı = CALCULATE([PersonelSayısı], Tablo33[Cinsiyet]="Kadın")
+
+## Turnover Rate
+
+TurnOverRate = DIVIDE(CALCULATE([PersonelSayısı], Tablo33[Durum]="Ayrıldı"), [PersonelSayısı])
+
+All KPIs respond dynamically to slicers.
 
 
-Shows total employee salary cost.
-
- Total Employees
-COUNTA('Personeller'[PersonelID])
-
-
-Fully responsive to all slicers.
-
- Female Employees
-Female Count =
-CALCULATE(COUNTA('Personeller'[Cinsiyet]), 'Personeller'[Cinsiyet] = "Kadın")
-
- Resignation Rate
-Resigned Rate =
-DIVIDE(
-    CALCULATE(COUNTA('Personeller'[Durum]), 'Personeller'[Durum] = "Ayrıldı"),
-    COUNTA('Personeller'[Durum])
-)
-
- B. Bar Chart – Employee Distribution by Department
+##Bar Chart – Employee Count by Department
 
 X-Axis: Department
 
 Y-Axis: Employee Count
 
- C. Donut Chart – Employment Status Distribution
+Shows department distribution.
 
-Shows Active vs Resigned employee ratio.
+##Donut Chart – Employment Status Distribution
 
- D. Custom Left Filter Panel
+Values: PersonelSayısı
 
-Includes slicers for:
+Legend: Status
 
-Gender
+Shows ratio of Active vs Resigned employees.
 
-Employment Status
+##Custom Filter Panel
 
-City
+Slicers for Gender, Status, and City
 
-Department
+Filter icon inserted from Google
 
-Year
+Resetting filters clears all selections
 
-Designed with:
+## Tooltip
 
-Custom PowerPoint background
+Custom tooltip shows details on hover
 
-Custom filter icon
+## Data Model
 
-Clean BI layout
+Single table: Tablo33
 
- DAX Measures Used
+Columns: Name, Gender, Department, Status, Salary, City, Year
 
-(Same DAX formulas written above in English)
+_calc table holds all DAX measures
 
- Data Model
+No relationships needed; works with one table
 
-Single-table structure:
+## UI / UX Highlights
 
-Column	Description
-PersonelID	Unique employee ID
-Gender	Female / Male
-Department	Assigned department
-Status	Active / Resigned
-Salary	Monthly salary
-City	Location
-Year	Filter field
-UI / UX Highlights
+Minimal corporate color palette
 
 Custom PowerPoint background
 
 High-contrast KPI cards
 
-Clean tooltip design
+Clean tooltip and layout
 
-Balanced layout
+Professional BI standard filter panel
 
-Professional BI structure
-
- Installation
+## Installation
 
 Open Power BI Desktop
 
