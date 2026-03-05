@@ -1,4 +1,4 @@
-![Dashboard ](dashboard_screenshot.png)
+![Dashboard](dashboard.png)
 
 ## 🇹🇷 Personel Dashboard – Power BI Raporlama Projesi (README)
 
